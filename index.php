@@ -2,7 +2,7 @@
 session_start();
 __DIR__. require 'head.php';
 __DIR__. require 'logic.php';
-__DIR__. require 'submit.php';?>
+?>
 <main>
     <div class="intro">
         <h1>Welcome to the Cabin 2.0</h1>
@@ -11,15 +11,18 @@ __DIR__. require 'submit.php';?>
         <p>The rules are simple, You need to navigate the game using only text commands and find the key items to use in certain areas. GO!</p>
     </div>
     <div class="form input">
-        <p>You are currently<?= $currentRoom?></p><?php
+        <p>You are currently <?=$currentRoom ?></p><?php        
         if ( $currentRoom === 'outside'){
-            $avalibaleDoors = $rooms['outside'];
-        }?>
-        <p>From here you can choose to enter<?= $avalibaleDoors?></p>
+            $avalibaleDoors = $roomDoors['outside'];
+        }
+        if ($currentRoom === 'outside') {
+            foreach($roomDoors['outside'] as $doors)
+            $avalibaleDoors = $doors;            
+        } ?>        
+        <p>From here you can choose to enter <?= $avalibaleDoors?></p>
         <form action="submit.php" method="post">
-            <label for="name">choose a door (<?php //välj mellan tillgängliga dörrar i specefikt rum ?>)</label>
-            <input type="text" id="name" name="name" required><br><br>
-            <input type="submit" value="Submit">
+            <label for="door">choose a door (<?=$avalibaleDoors?>)</label>            
+            <button type="submit" name="input" value="door1">door1</button>
         </form>
-    </div>
+    </div>    
 </main>
