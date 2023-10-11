@@ -1,132 +1,93 @@
 <?php
 session_start();
 __DIR__. require 'head.php';
-__DIR__. require 'logic.php';
+
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") { 
     if (isset($_POST["input"])) {  //vi kollar om det finns input att hämta
         $selectedButton = $_POST["input"]; // finns det input lagrar vi den i variabeln på denna rad
         
-    } 
-};
-//$lastFiveCommandsGiven = []; 
-$lastFiveCommandsGiven[] = $selectedButton;
+$lastFiveCommandsGiven = [];        
+array_push($lastFiveCommandsGiven,$selectedButton);
+
 for ($i = 0; $i < count($lastFiveCommandsGiven);$i++){
     echo 'your last choices: '.$lastFiveCommandsGiven[$i];
 };
-if ($currentRoom === 'room1' && $selectedButton === 'door1'){
-    $currentRoom = $rooms[0];
+function getAvalibaleDoors ($roomDoors,$currentRoom){
+    foreach($roomDoors[$currentRoom] as $doors){
+        $avalibaleDoors[] = $doors;  
+        echo $doors.', ';  
+    };
+    return $avalibaleDoors;     
 }
-elseif ($currentRoom === 'outside' && $selectedButton === 'door1'){
-    $currentRoom = $rooms[1];
-}
-elseif ($currentRoom === 'room1' && $selectedButton === 'door2'){
-    $currentRoom = $rooms[3];
-}
-elseif ($currentRoom === 'room1' && $selectedButton === 'door3'){
-    $currentRoom = $rooms[5];
-}
-elseif ($currentRoom === 'room1' && $selectedButton === 'door4'){
-    $currentRoom = $rooms[2];
-}
-elseif ($currentRoom === 'room2' && $selectedButton === 'door4'){
-    $currentRoom = $rooms[1];
-}
-elseif ($currentRoom === 'room2' && $selectedButton === 'door5'){
-    $currentRoom = $rooms[4];
-}
-elseif ($currentRoom === 'room3' && $selectedButton === 'door2'){
-    $currentRoom = $rooms[1];
-}
-elseif ($currentRoom === 'room3' && $selectedButton === 'door6'){
-    $currentRoom = $rooms[6];
-}
-elseif ($currentRoom === 'room4' && $selectedButton === 'door5'){
-    $currentRoom = $rooms[2];
-}
-elseif ($currentRoom === 'room4' && $selectedButton === 'door8'){
-    $currentRoom = $rooms[5];
-}
-elseif ($currentRoom === 'room4' && $selectedButton === 'door7'){
-    $currentRoom = $rooms[7];
-}
-elseif ($currentRoom === 'room5' && $selectedButton === 'door8'){
-    $currentRoom = $rooms[4];
-}
-elseif ($currentRoom === 'room5' && $selectedButton === 'door3'){
-    $currentRoom = $rooms[1];
-}
-elseif ($currentRoom === 'room5' && $selectedButton === 'door11'){
-    $currentRoom = $rooms[6];
-}
-elseif ($currentRoom === 'room5' && $selectedButton === 'door10'){
-    $currentRoom = $rooms[8];
-}
-elseif ($currentRoom === 'room6' && $selectedButton === 'door11'){
-    $currentRoom = $rooms[5];
-}
-elseif ($currentRoom === 'room6' && $selectedButton === 'door6'){
-    $currentRoom = $rooms[3];
-}
-elseif ($currentRoom === 'room6' && $selectedButton === 'door12'){
-    $currentRoom = $rooms[9];
-}
-elseif ($currentRoom === 'room7' && $selectedButton === 'door7'){
-    $currentRoom = $rooms[4];
-}
-elseif ($currentRoom === 'room7' && $selectedButton === 'door9'){
-    $currentRoom = $rooms[8];
-}
-elseif ($currentRoom === 'room8' && $selectedButton === 'door9'){
-    $currentRoom = $rooms[7];
-}
-elseif ($currentRoom === 'room8' && $selectedButton === 'door10'){
-    $currentRoom = $rooms[5];
-}
-elseif ($currentRoom === 'room8' && $selectedButton === 'door13'){
-    $currentRoom = $rooms[9];
-}
-elseif ($currentRoom === 'room9' && $selectedButton === 'door13'){
-    $currentRoom = $rooms[8];
-}
-elseif ($currentRoom === 'room9' && $selectedButton === 'door12'){
-    $currentRoom = $rooms[6];
-}
-elseif ($currentRoom === 'room4' && $selectedButton === 'door14'){
-    $currentRoom = $rooms[10];
-}
-elseif ($currentRoom === 'treasure_room' && $selectedButton === 'door14'){
-    $currentRoom = $rooms[4];
-};
-switch($currentRoom){    
-    case $currentRoom ==='room1' : ?>
-        <p>you enter room1, its dark and damp. You can see 3 doors.
-        <?php if ($geraltSword === false){
-            echo 'On the floor you can see Geralts silver sword';} 
-            else {echo 'the room is empty';}?> </p>
-            <p>The doors you can choose from are<?php            
-            if ($currentRoom === 'room1') {
-                foreach($roomDoors['room1'] as $doors){
-                $avalibaleDoors[] = $doors;  
-                echo $doors.', ';  
-                }     
-            } ?></p>
+//getCurrentRoom($currentRoom, $selectedButton, $rooms);
+echo $currentRoom;
+echo $selectedButton;?>
+<div id="form-container"><?php
+$nextQuestionHTML = '<form id="myForm" action="submit.php" method="post">';
+echo $nextQuestionHTML;
+switch(getCurrentRoom($currentRoom, $selectedButton, $rooms)){ 
+    case 'outside': ?>
+        <p>You are currently <?=$currentRoom ?></p><?php 
+         if ( $currentRoom === 'outside'){
+            $avalibaleDoors = $roomDoors['outside'];
+        }
+        if ($currentRoom === 'outside') {
+            foreach($roomDoors['outside'] as $doors)
+            $avalibaleDoors = $doors;            
+        } ?>        
+        <p>From here you can choose to enter <?= $avalibaleDoors?></p>
+        <form action="submit.php" method="post">
+        <label for="door">choose a door (<?=$avalibaleDoors?>)</label>            
+        <button type="submit" name="input" value="door1">door1</button></div><?php
+        break;       
+    case 'room1' : ?>
+        <p>you enter room1, its dark and damp. You can see 4 doors.
+        <?php 
+        if ($geraltSword === false){// när user plockar upp svärdet blir det true
+            echo 'On the floor you can see Geralts silver sword';
+        } 
+        else {
+            echo 'the room is empty';
+        }
+        //kolla vilket rum programmet är i
+        echo $currentRoom;
+        ?>
+        </p>
+        <p>The doors you can choose from are <?php 
+        getAvalibaleDoors($roomDoors,$currentRoom, $selectedButton, $rooms);       
+             ?></p>             
+             <!--<form action="submit.php" method="post"> -->
+             <label for="door">choose a door</label>            
+             <button type="submit" name="input" value="door1">door1</button>
+             <button type="submit" name="input" value="door2">door2</button>
+             <button type="submit" name="input" value="door3">door3</button>
+             <button type="button" name="input" onclick="submitForm()" value="door4">door4</button>
+             </form></div>        
 <?php // lägg till knapp 'plocka upp svärd' 
 break;
-    case $currentRoom === 'room2' : ?>
-        <p>You enter room2, you hear a distant growling from somewhere. there are 2 doors.<?php if ($goldenApple === false){
-            echo 'On the floor you can see an Golden apple';} else {echo 'the room is empty';}?></p>
-             <p>The doors you can choose from are<?php if ( $currentRoom === 'room2'){
-                $avalibaleDoors = $roomDoors['room2'];
-            }
-            if ($currentRoom === 'room2') {
-                foreach($roomDoors['room2'] as $doors)
-                $avalibaleDoors = $doors;            
-            } ?></p>
+    case 'room2' : ?>
+        <p>You enter room2, you hear a distant growling from somewhere. there are 2 doors.<?php 
+        if ($goldenApple === false){
+            echo 'On the floor you can see an Golden apple';
+            } 
+            else {
+            echo 'the room is empty';
+            }?></p>
+            <p>The doors you can choose from are<?php 
+            getAvalibaleDoors($roomDoors,$currentRoom, $selectedButton, $rooms);  
+            ?></p><?php
+            $nextQuestionHTML = '
+            <form action="submit.php" method="post" id="nextQuestion">
+            <label for="door">choose a door</label>            
+            <button type="submit" name="input" value="door1">door5</button>            
+            <button type="submit" name="input" value="door4">door4</button>
+            </form>';
+            echo $nextQuestionHTML;?>
 <?php // lägg till knapp 'plocka upp äpple' 
 break;
-    case $currentRoom ==='room3' : ?>
+    case 'room3' : ?>
     <p>You enter room3, The smell of rotting flesh is overhelming There are 2 doors.<?php if ($meat === false){
         echo 'on the floor you see some meat';} else { echo 'the room is empty';}?></p>
          <p>The doors you can choose from are<?php if ( $currentRoom === 'room3'){
@@ -138,7 +99,7 @@ break;
             } ?></p>
 <?php // lägg till knapp 'plocka upp kött' 
 break;
-    case $currentRoom === 'room4' : ?>
+    case 'room4' : ?>
     <p>You enter room4, There is a door with an old huge lock, you can see light from under the door.<?php if ($lock === false){
         echo 'the lock is locked shut and impossible to budge';}else {'the lock is unlocked';}?></p>
          <p>The doors you can choose from are<?php if ( $currentRoom === 'room4'){
@@ -150,7 +111,7 @@ break;
             } ?></p>
 <?php //lägg till knapp 'lås upp lås' 
 break;
-    case $currentRoom === 'room5' : ?>
+    case 'room5' : ?>
     <p>You enter room5, There is an big, evil, giganticous helldog here!<?php if ($dogIsFed === false){
         echo 'He seems hungry! If you cant feed him he will probably eat you!';}else {echo 'he seems not hungry anymore';}?></p>
          <p>The doors you can choose from are<?php if ( $currentRoom === 'room5'){
@@ -162,7 +123,7 @@ break;
             } ?></p>
 <?php //lägg till knapp 'mata hunden' OM player har 'meat' 
 break;
-    case $currentRoom === 'room6' : ?>
+    case 'room6' : ?>
     <p>You enter room6, a flute is playing but you cant seem to make out the direction.<?php if($dice === false){
         echo 'There are the dice of fortune on the floor!';}else {echo 'the room is empty!';}?></p>
          <p>The doors you can choose from are<?php if ( $currentRoom === 'room6'){
@@ -174,7 +135,7 @@ break;
             } ?></p>
 <?php //lägg till knapp 'plocka upp dice' 
 break;
-    case $currentRoom === 'room7' : ?>
+    case 'room7' : ?>
     <p>You enter room7, The scorpions are here for some reason.<?php if($wind === false){
         echo 'the wind of change are here';}else { echo ' the room is now empty';}?></p>
          <p>The doors you can choose from are<?php if ( $currentRoom === 'room7'){
@@ -186,7 +147,7 @@ break;
             } ?></p>
 <?php //lägg till knapp 'plocka wind of change' 
 break;
-    case $currentRoom === 'room8' : ?>
+    case 'room8' : ?>
     <p>You enter room 8, You can hear the sound of birds flying, and wings flapping.<?php if ($boots === false){
         echo ' the boots of hermes are on the ground!';}else {echo 'the room are emtpy!';}?></p>
          <p>The doors you can choose from are<?php if ( $currentRoom === 'room8'){
@@ -198,7 +159,7 @@ break;
             } ?></p>
 <?php //lägg till knapp 'plocka upp boots of hermes'
 break;
-    case $currentRoom === 'room9' : ?>
+    case 'room9' : ?>
     <p>You enter room 9, You can hear nothing but the sound of silence.<?php if ($key === false){
         echo 'there are an big rusty key on the ground!';}else {echo 'the room are emtpy!';}?></p>
          <p>The doors you can choose from are<?php if ( $currentRoom === 'room9'){
@@ -210,7 +171,7 @@ break;
             } ?></p>
 <?php //lägg till knapp 'plocka upp key' 
 break;
-    case $currentRoom === 'treasure_room' : ?>
+    case 'treasure_room' : ?>
     <p>You enter the treasure room, There is an big chest in the midle of the room. <?php if ($chest === false){
         echo 'Its full of gold!';}else {echo 'the chest is emtpy!';}?></p>
          <p>The doors you can choose from are<?php if ( $currentRoom === 'treasure_room'){
@@ -223,5 +184,6 @@ break;
 <?php //lägg till knapp 'plocka upp guld' 
 break;
 }
-
+} 
+};
 ?>

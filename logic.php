@@ -3,7 +3,7 @@ session_start();
 
 
 $inventory = [];
-$currentRoom = 'outside';
+
 $avalibaleDoors = [];
 $roomDoors = [
     'outside' => ['door1'],
@@ -19,7 +19,110 @@ $roomDoors = [
     'treasure_room' => ['door14']
 ];
 
+$currentRoom = 'outside';
+function getCurrentRoom (&$currentRoom, $selectedButton, $rooms){
+    if ($currentRoom == null){
+        $currentRoom = $rooms[0];
+    }
+    elseif ($currentRoom === 'room1' && $selectedButton === 'door1'){
+        $currentRoom = $rooms[0];
+    }
+    elseif ($currentRoom === 'outside' && $selectedButton === 'door1'){
+        $currentRoom = $rooms[1];
+    }
+    elseif ($currentRoom === 'room1' && $selectedButton === 'door2'){
+        $currentRoom = $rooms[3];
+    }
+    elseif ($currentRoom === 'room1' && $selectedButton === 'door3'){
+        $currentRoom = $rooms[5];
+    }
+    elseif ($currentRoom === 'room1' && $selectedButton === 'door4'){
+        $currentRoom = $rooms[2];
+    }
+    elseif ($currentRoom === 'room2' && $selectedButton === 'door4'){
+        $currentRoom = $rooms[1];
+    }
+    elseif ($currentRoom === 'room2' && $selectedButton === 'door5'){
+        $currentRoom = $rooms[4];
+    }
+    elseif ($currentRoom === 'room3' && $selectedButton === 'door2'){
+        $currentRoom = $rooms[1];
+    }
+    elseif ($currentRoom === 'room3' && $selectedButton === 'door6'){
+        $currentRoom = $rooms[6];
+    }
+    elseif ($currentRoom === 'room4' && $selectedButton === 'door5'){
+        $currentRoom = $rooms[2];
+    }
+    elseif ($currentRoom === 'room4' && $selectedButton === 'door8'){
+        $currentRoom = $rooms[5];
+    }
+    elseif ($currentRoom === 'room4' && $selectedButton === 'door7'){
+        $currentRoom = $rooms[7];
+    }
+    elseif ($currentRoom === 'room5' && $selectedButton === 'door8'){
+        $currentRoom = $rooms[4];
+    }
+    elseif ($currentRoom === 'room5' && $selectedButton === 'door3'){
+        $currentRoom = $rooms[1];
+    }
+    elseif ($currentRoom === 'room5' && $selectedButton === 'door11'){
+        $currentRoom = $rooms[6];
+    }
+    elseif ($currentRoom === 'room5' && $selectedButton === 'door10'){
+        $currentRoom = $rooms[8];
+    }
+    elseif ($currentRoom === 'room6' && $selectedButton === 'door11'){
+        $currentRoom = $rooms[5];
+    }
+    elseif ($currentRoom === 'room6' && $selectedButton === 'door6'){
+        $currentRoom = $rooms[3];
+    }
+    elseif ($currentRoom === 'room6' && $selectedButton === 'door12'){
+        $currentRoom = $rooms[9];
+    }
+    elseif ($currentRoom === 'room7' && $selectedButton === 'door7'){
+        $currentRoom = $rooms[4];
+    }
+    elseif ($currentRoom === 'room7' && $selectedButton === 'door9'){
+        $currentRoom = $rooms[8];
+    }
+    elseif ($currentRoom === 'room8' && $selectedButton === 'door9'){
+        $currentRoom = $rooms[7];
+    }
+    elseif ($currentRoom === 'room8' && $selectedButton === 'door10'){
+        $currentRoom = $rooms[5];
+    }
+    elseif ($currentRoom === 'room8' && $selectedButton === 'door13'){
+        $currentRoom = $rooms[9];
+    }
+    elseif ($currentRoom === 'room9' && $selectedButton === 'door13'){
+        $currentRoom = $rooms[8];
+    }
+    elseif ($currentRoom === 'room9' && $selectedButton === 'door12'){
+        $currentRoom = $rooms[6];
+    }
+    elseif ($currentRoom === 'room4' && $selectedButton === 'door14'){
+        $currentRoom = $rooms[10];
+    }
+    elseif ($currentRoom === 'treasure_room' && $selectedButton === 'door14'){
+        $currentRoom = $rooms[4];
+    };
+    return $currentRoom;
+}
 
+
+
+$geraltSword = false;
+$goldenApple = false;
+$meat = false;
+$lock = false;
+$dogIsFed = false;
+$dice = false;
+$wind = false;
+$boots = false;
+$key = false;
+$chest = false;
 $roomItems = [
     'outside' => 'nothing',
     'room1' => 'Geralds silver sword',

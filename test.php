@@ -75,3 +75,15 @@ switch($currentRoom){
 
 
 
+<p>You are currently <?=$currentRoom ?></p><?php        
+        if ( $currentRoom === 'outside'){
+            $avalibaleDoors = $roomDoors['outside'];
+        }
+        if ($currentRoom === 'outside') {
+            foreach($roomDoors['outside'] as $doors)
+            $avalibaleDoors = $doors;            
+        } ?>        
+        <p>From here you can choose to enter <?= $avalibaleDoors?></p>
+
+
+
