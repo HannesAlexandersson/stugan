@@ -110,7 +110,13 @@ function getCurrentRoom (&$currentRoom, $selectedButton, $rooms){
     };
     return $currentRoom;
 }
-
+function getAvalibaleDoors ($roomDoors,$currentRoom){
+    foreach($roomDoors[$currentRoom] as $doors){
+        $avalibaleDoors[] = $doors;  
+        echo $doors.', ';  
+    };
+    return $avalibaleDoors;     
+}
 
 
 $geraltSword = false;

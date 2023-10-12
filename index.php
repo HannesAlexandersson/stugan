@@ -10,8 +10,32 @@ __DIR__. require 'head.php';
         <p>This is my own take on the old classic. It also happens to be an assignment from my teacher so it works out fine for me, two birds with one stone sort of speak.</p>
         <p>The rules are simple, You need to navigate the game using only text commands and find the key items to use in certain areas. GO!</p>
     </div>
-    <div class="form input" id="form-container"><?php
-    switch(getCurrentRoom($currentRoom, $selectedButton, $rooms)){ 
+    <div class="form input" id="form-container">
+
+    <form action="<?php echo htmlspecialchars($_SERVER['index.php']); ?>" method="post">
+    <p>You are currently origin<?=$currentRoom ?></p><?php        
+        if ( $currentRoom === 'outside'){
+            $avalibaleDoors = $roomDoors['outside'];
+        }
+        if ($currentRoom === 'outside') {
+            foreach($roomDoors['outside'] as $doors)
+            $avalibaleDoors = $doors;            
+        } ?>        
+        <p>From here you can choose to enter <?= $avalibaleDoors?></p>
+        <label for="door">choose a door (<?=$avalibaleDoors?>)</label>            
+        <button type="submit" name="input" value="door1">door1</button></div><?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") { 
+    if (isset($_POST["input"])) {  //vi kollar om det finns input att hämta
+        $selectedButton = $_POST["input"]; // finns det input lagrar vi den i variabeln på denna rad
+        $lastFiveCommandsGiven = [];        
+        array_push($lastFiveCommandsGiven,$selectedButton);
+        
+        for ($i = 0; $i < count($lastFiveCommandsGiven);$i++){
+            echo 'your last choices: '.$lastFiveCommandsGiven[$i];
+        };
+$currentRoom = getCurrentRoom($currentRoom, $selectedButton, $rooms);
+    switch($currentRoom){ 
     case 'outside': ?>
         <p>You are currently <?=$currentRoom ?></p><?php 
          if ( $currentRoom === 'outside'){
@@ -22,11 +46,13 @@ __DIR__. require 'head.php';
             $avalibaleDoors = $doors;            
         } ?>        
         <p>From here you can choose to enter <?= $avalibaleDoors?></p>
-        <form action="submit.php" method="post">
-        <label for="door">choose a door (<?=$avalibaleDoors?>)</label>            
-        <button type="submit" name="input" value="door1">door1</button></div><?php
+        <div class="form input" id="form-container">
+            <form action="<?php echo htmlspecialchars($_SERVER['index.php']); ?>" method="post">
+            <label for="door">choose a door (<?=$avalibaleDoors?>)</label>            
+            <button type="submit" name="input" value="door1">door1</button>
+        </div><?php echo $currentRoom;
         break;       
-    case 'room1' : ?>
+    case 'room1': ?>
         <p>you enter room1, its dark and damp. You can see 4 doors.
         <?php 
         if ($geraltSword === false){// när user plockar upp svärdet blir det true
@@ -41,17 +67,20 @@ __DIR__. require 'head.php';
         </p>
         <p>The doors you can choose from are <?php 
         getAvalibaleDoors($roomDoors,$currentRoom, $selectedButton, $rooms);       
-             ?></p>             
-             <form action="submit.php" method="post">
-             <label for="door">choose a door</label>            
-             <button type="submit" name="input" value="door1">door1</button>
-             <button type="submit" name="input" value="door2">door2</button>
-             <button type="submit" name="input" value="door3">door3</button>
-             <button type="button" name="input" onclick="submitForm()" value="door4">door4</button>
-             </form></div>        
+             ?></p> 
+             <div class="form input" id="form-container">            
+                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post"><?php
+                echo $currentRoom;?>
+                <label for="door">choose a door</label>            
+                <button type="submit" name="input" value="door1">door1</button>
+                <button type="submit" name="input" value="door2">door2</button>
+                <button type="submit" name="input" value="door3">door3</button>
+                <button type="submit" name="input" value="door4">door4</button>                
+                </form>
+            </div>        
 <?php // lägg till knapp 'plocka upp svärd' 
 break;
-    case 'room2' : ?>
+    case 'room2': ?>
         <p>You enter room2, you hear a distant growling from somewhere. there are 2 doors.<?php 
         if ($goldenApple === false){
             echo 'On the floor you can see an Golden apple';
@@ -61,17 +90,15 @@ break;
             }?></p>
             <p>The doors you can choose from are<?php 
             getAvalibaleDoors($roomDoors,$currentRoom, $selectedButton, $rooms);  
-            ?></p><?php
-            $nextQuestionHTML = '
-            <form action="submit.php" method="post" id="nextQuestion">
+            ?></p>
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
             <label for="door">choose a door</label>            
             <button type="submit" name="input" value="door1">door5</button>            
             <button type="submit" name="input" value="door4">door4</button>
-            </form>';
-            echo $nextQuestionHTML;?>
+            </form>;            
 <?php // lägg till knapp 'plocka upp äpple' 
 break;
-    case 'room3' : ?>
+    case 'room3': ?>
     <p>You enter room3, The smell of rotting flesh is overhelming There are 2 doors.<?php if ($meat === false){
         echo 'on the floor you see some meat';} else { echo 'the room is empty';}?></p>
          <p>The doors you can choose from are<?php if ( $currentRoom === 'room3'){
@@ -167,6 +194,8 @@ break;
             } ?></p>
 <?php //lägg till knapp 'plocka upp guld' 
 break;
+}
+}
 }?>
        
         </form>

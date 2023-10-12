@@ -1,7 +1,7 @@
 function submitForm() {
     var formData = new FormData(document.getElementById("myForm"));
 
-    fetch("submit.php", {
+    fetch("index.php", {
         method: "POST",
         body: formData
     })
