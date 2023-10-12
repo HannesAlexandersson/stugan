@@ -11,6 +11,9 @@ __DIR__. require 'head.php';
         <p>The rules are simple, You need to navigate the game using only text commands and find the key items to use in certain areas. GO!</p>
     </div>
     <div class="form input" id="form-container">
+    
+        
+      
 
     <form action="<?php echo htmlspecialchars($_SERVER['index.php']); ?>" method="post">
     <p>You are currently origin<?=$currentRoom ?></p><?php        
@@ -22,9 +25,51 @@ __DIR__. require 'head.php';
             $avalibaleDoors = $doors;            
         } ?>        
         <p>From here you can choose to enter <?= $avalibaleDoors?></p>
-        <label for="door">choose a door (<?=$avalibaleDoors?>)</label>            
-        <button type="submit" name="input" value="door1">door1</button></div><?php
+        <label id="question-container" for="door">choose a door (<?=$avalibaleDoors?>)</label>            
+        <button id="door1" type="submit" name="input" value="door1">door1</button></div>
+<div id="question-container">
+<script>
+    const questionContainer = document.getElementById('question-container');
+    const questionText = document.getElementById('question');
+    const answerAButton = document.getElementById('door1');
+    const answerBButton = document.getElementById('answerB');
 
+    // Function to handle the user's answer
+    function handleAnswer(answer) {
+        if (answer === 'doo1') {
+            
+        } else if (answer === 'B') {
+            // Handle answer B
+            // You can do something here based on the user's choice
+        }
+
+        // Load the next question
+        loadNextQuestion();
+    }
+
+    // Function to load the next question
+    function loadNextQuestion() {
+        // You can add logic to determine the next question
+        // For simplicity, we're just incrementing the question number
+        const currentQuestionNumber = parseInt(questionText.textContent.match(/\d+/)[0]);
+        const nextQuestionNumber = currentQuestionNumber + 1;
+        const nextQuestion = `Question ${nextQuestionNumber}: What is your answer?`;
+
+        if (nextQuestionNumber <= 3) { // Change 3 to the number of questions you want
+            // Display the next question
+            questionText.textContent = nextQuestion;
+        } else {
+            // Display a message when all questions are done
+            questionContainer.innerHTML = "<p>Thank you for answering all questions.</p>";
+        }
+    }
+
+    // Add click event listeners to the answer buttons
+    answerAButton.addEventListener('click', () => handleAnswer('A'));
+    answerBButton.addEventListener('click', () => handleAnswer('B'));
+</script>
+    
+    <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") { 
     if (isset($_POST["input"])) {  //vi kollar om det finns input att hämta
         $selectedButton = $_POST["input"]; // finns det input lagrar vi den i variabeln på denna rad
@@ -50,7 +95,7 @@ $currentRoom = getCurrentRoom($currentRoom, $selectedButton, $rooms);
             <form action="<?php echo htmlspecialchars($_SERVER['index.php']); ?>" method="post">
             <label for="door">choose a door (<?=$avalibaleDoors?>)</label>            
             <button type="submit" name="input" value="door1">door1</button>
-        </div><?php echo $currentRoom;
+        </div></div><?php echo $currentRoom;
         break;       
     case 'room1': ?>
         <p>you enter room1, its dark and damp. You can see 4 doors.
@@ -77,7 +122,7 @@ $currentRoom = getCurrentRoom($currentRoom, $selectedButton, $rooms);
                 <button type="submit" name="input" value="door3">door3</button>
                 <button type="submit" name="input" value="door4">door4</button>                
                 </form>
-            </div>        
+            </div></div>        
 <?php // lägg till knapp 'plocka upp svärd' 
 break;
     case 'room2': ?>

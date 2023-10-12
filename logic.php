@@ -130,17 +130,17 @@ $boots = false;
 $key = false;
 $chest = false;
 $roomItems = [
-    'outside' => 'nothing',
-    'room1' => 'Geralds silver sword',
-    'room2' => 'Golden apple',
-    'room3' => 'meat',
-    'room4' => 'lock',
-    'room5' => 'Angry dog',
-    'room6' => 'dice of fortune',
-    'room7' => 'The wind of change',
-    'room8' => 'The boots of Hermes',
-    'room9' => 'A key',
-    'treasure_room' => 'Treasure chest'
+    
+    'Geralds silver sword',
+   'Golden apple',
+   'meat',
+    'lock',
+    'Angry dog',
+    'dice of fortune',
+    'The wind of change',
+    'The boots of Hermes',
+    'A key',
+    'Treasure chest'
 ];
 $rooms = [
     'outside',
@@ -155,3 +155,134 @@ $rooms = [
     'room9',
     'treasure_room' 
 ];
+//$geraltSword,$goldenApple,$meat
+function getQuestion($currentRoom, $selectedButton, $rooms,$roomDoors,$geraltSword,$goldenApple,$meat,$lock,$dogIsFed,$dice,$key,$chest,$boots,$wind) {
+    ?><div id="question-container">
+        <?php
+    switch(getCurrentRoom($currentRoom, $selectedButton, $rooms)){ 
+        case 'outside': 
+             ?>
+            <p>You are currently <?=$currentRoom ?></p>                            
+            <label id="question" for="door">choose a door (<?=getAvalibaleDoors($roomDoors, $currentRoom); ?>)</label>            
+            <button id="door1">door1</button> </div><?php
+            break;       
+        case 'room1' : 
+             ?>
+            <p>you enter <?=$currentRoom?>, its dark and damp. You can see 4 doors. </p>
+            <p>The doors you can choose from are <?php getAvalibaleDoors($roomDoors, $currentRoom); ?></p>                     
+                 <label id="question" for="door">choose a door</label>            
+                 <button id="door1">door1</button> 
+                 <button id="door2">door2</button> 
+                 <button id="door3">door3</button> 
+                 <button id="door4">door4</button>                      
+                <?php // lägg till knapp 'plocka upp svärd' 
+                break;
+        case 'room2' : ?>
+            <p>You enter room2, you hear a distant growling from somewhere. there are 2 doors.</p>
+                <p>The doors you can choose from are<?php 
+                getAvalibaleDoors($roomDoors, $currentRoom);  
+                ?></p>                    
+                <label id="question" for="door">choose a door</label>            
+                <button id="door5">door5</button>             
+                <button id="door4">door4</button> 
+                <?php // lägg till knapp 'plocka upp äpple' 
+                break;
+        case 'room3' : ?>
+            <p>You enter room3, The smell of rotting flesh is overhelming There are 2 doors.</p>
+             <p>The doors you can choose from are<?php
+             getAvalibaleDoors($roomDoors, $currentRoom);
+                ?></p>
+                <label id="question" for="door">choose a door</label>
+                <button id="door2">door2</button>  
+                <button id="door6">door6</button>            
+                <?php // lägg till knapp 'plocka upp kött' 
+                break;
+        case 'room4' : ?>
+            <p>You enter room4, There is a door with an old huge lock, you can see light from under the door.</p>
+             <p>The doors you can choose from are<?php
+             getAvalibaleDoors($roomDoors, $currentRoom);
+                ?></p>
+                <label id="question" for="door">choose a door</label>
+                <button id="door5">door5</button>  
+                <button id="door8">door8</button>
+                <button id="door7">door7</button>  
+                <button id="door14">door14</button>      
+                <?php //lägg till knapp 'lås upp lås' 
+                break;
+        case 'room5' : ?>
+            <p>You enter room5, There is an big, evil, giganticous helldog here!</p>
+             <p>The doors you can choose from are<?php
+             getAvalibaleDoors($roomDoors, $currentRoom);
+                ?></p>
+                <label id="question" for="door">choose a door</label>
+                <button id="door3">door3</button>  
+                <button id="door8">door8</button>
+                <button id="door11">door11</button>  
+                <button id="door10">door10</button>
+                <?php //lägg till knapp 'mata hunden' OM player har 'meat' 
+                break;
+        case 'room6' : ?>
+            <p>You enter room6, a flute is playing but you cant seem to make out the direction.</p>
+             <p>The doors you can choose from are<?php
+             getAvalibaleDoors($roomDoors, $currentRoom);
+                ?></p>
+                <label id="question" for="door">choose a door</label>
+                <button id="door6">door6</button>  
+                <button id="door11">door11</button>
+                <button id="door12">door12</button>                     
+                <?php //lägg till knapp 'plocka upp dice' 
+                break;
+        case 'room7' : ?>
+            <p>You enter room7, The scorpions are here for some reason.</p>
+             <p>The doors you can choose from are<?php
+             getAvalibaleDoors($roomDoors, $currentRoom);
+                ?></p>
+                <label id="question" for="door">choose a door</label>                    
+                <button id="door7">door7</button>  
+                <button id="door9">door9</button>
+                <?php //lägg till knapp 'plocka wind of change' 
+                break;
+        case 'room8' : ?>
+            <p>You enter room 8, You can hear the sound of birds flying, and wings flapping.</p>
+             <p>The doors you can choose from are<?php
+             getAvalibaleDoors($roomDoors, $currentRoom);
+                ?></p>
+                <label id="question" for="door">choose a door</label>
+                <button id="door9">door9</button>  
+                <button id="door10">door10</button>
+                <button id="door13">door13</button>                     
+                <?php //lägg till knapp 'plocka upp boots of hermes'
+                break;
+        case 'room9' : ?>
+            <p>You enter room 9, You can hear nothing but the sound of silence.</p>
+             <p>The doors you can choose from are<?php
+             getAvalibaleDoors($roomDoors, $currentRoom);
+                ?></p>
+                <label id="question" for="door">choose a door</label>
+                <button id="door12">door12</button>  
+                <button id="door13">door13</button>                    
+                <?php //lägg till knapp 'plocka upp key' 
+                break;
+        case 'treasure_room' : ?>
+            <p>You enter the treasure room, There is an big chest in the midle of the room.</p>
+             <p>The doors you can choose from are<?php
+             getAvalibaleDoors($roomDoors, $currentRoom);
+                ?></p>
+                <label id="question" for="door">choose a door</label>
+                <button id="door14">door14</button>                                 
+                <?php //lägg till knapp 'plocka upp guld' 
+                break;
+    };?>    
+</div><?php
+}
+if (isset($_POST['selectedButton'])) {
+    $selectedButton = $_POST['selectedButton'];
+    // Process the selected answer here
+    // Generate the next question
+    $nextQuestion = getQuestion($currentRoom, $selectedButton, $rooms, $roomDoors, $geraltSword, $goldenApple, $meat, $lock, $dogIsFed, $dice, $key, $chest, $boots, $wind);
+    echo $nextQuestion;
+} else {
+    // Handle the initial question when the page loads
+    $initialQuestion = getQuestion($currentRoom, null, $rooms, $roomDoors, $geraltSword, $goldenApple, $meat, $lock, $dogIsFed, $dice, $key, $chest, $boots, $wind);
+    echo $initialQuestion;
+}
