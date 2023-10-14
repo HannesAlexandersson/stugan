@@ -1,25 +1,7 @@
 <?php
 session_start();
-
-
-$inventory = [];
-
-$avalibaleDoors = [];
-$roomDoors = [
-    'outside' => ['door1'],
-    'room1' => ['door1', 'door2', 'door3', 'door4'],
-    'room2' => ['door4', 'door5'],
-    'room3' => ['door2', 'door6'],
-    'room4' => ['door5', 'door8', 'door7', 'door14'],
-    'room5' => ['door8', 'door10', 'door11', 'door3'],
-    'room6' => ['door6', 'door11', 'door12'],
-    'room7' => ['door7', 'door9'],
-    'room8' => ['door9', 'door10', 'door13'],
-    'room9' => ['door13', 'door12'],
-    'treasure_room' => ['door14']
-];
-
-$currentRoom = 'outside';
+__DIR__. require 'resource.php';
+//gets the current room based of what room the user came from and what door button the user pressed to change room
 function getCurrentRoom (&$currentRoom, $selectedButton, $rooms){
     if ($currentRoom == null){
         $currentRoom = $rooms[0];
@@ -110,6 +92,8 @@ function getCurrentRoom (&$currentRoom, $selectedButton, $rooms){
     };
     return $currentRoom;
 }
+
+//gets the avalibale doors based on what room the user are in at the moment. echo's the avalibale doors AND returns those doors as an array
 function getAvalibaleDoors ($roomDoors,$currentRoom){
     foreach($roomDoors[$currentRoom] as $doors){
         $avalibaleDoors[] = $doors;  
@@ -118,72 +102,35 @@ function getAvalibaleDoors ($roomDoors,$currentRoom){
     return $avalibaleDoors;     
 }
 
-/*
-$geraltSword = false;
-$goldenApple = false;
-$meat = false;
-$lock = false;
-$dogIsFed = false;
-$dice = false;
-$wind = false;
-$boots = false;
-$key = false;
-$chest = false;
-*/
-$roomItems = [
-    
-    'Geralds silver sword',
-   'Golden apple',
-   'meat',
-    'lock',
-    'Angry dog',
-    'dice of fortune',
-    'The wind of change',
-    'The boots of Hermes',
-    'A key',
-    'Treasure chest'
-];
-$rooms = [
-    'outside',
-    'room1',
-    'room2' ,
-    'room3',
-    'room4',
-    'room5',
-    'room6' ,
-    'room7' ,
-    'room8',
-    'room9',
-    'treasure_room' 
-];
-//$geraltSword,$goldenApple,$meat,$lock,$dogIsFed,$dice,$key,$chest,$boots,$wind
+
+
+//gets the next question with an switch case based on players current room, also the main driver for when the room changes (wich are each time the getCurrentRoom functions get called)
 function getQuestion($currentRoom, $selectedButton, $rooms,$roomDoors,) {
     ?><div id="question-container">
         <?php
-    switch(getCurrentRoom($currentRoom, $selectedButton, $rooms)){ 
+    switch(getCurrentRoom ($currentRoom, $selectedButton, $rooms)){ 
         case 'outside': 
              ?>
             <p>You are currently <?=$currentRoom ?></p>                            
-            <label id="question" for="door">choose a door (<?php getAvalibaleDoors($roomDoors, $currentRoom); ?>)</label>            
+            <label id="question" for="door1">choose a door (<?php getAvalibaleDoors($roomDoors, $currentRoom); ?>)</label>            
             <button id="door1">door1</button> <?php
             break;       
         case 'room1' : 
              ?>
             <p>you enter <?=$currentRoom?>, its dark and damp. You can see 4 doors. </p>
             <p>The doors you can choose from are <?php getAvalibaleDoors($roomDoors, $currentRoom); ?></p>                     
-                 <label id="question" for="door">choose a door</label>            
-                 <button id="door1">door1</button> 
-                 <button id="door2">door2</button> 
-                 <button id="door3">door3</button> 
-                 <button id="door4">door4</button>                      
-                <?php 
-                break;
+            <label id="question">choose a door</label>            
+            <button id="door1">door1</button> 
+            <button id="door2">door2</button> 
+            <button id="door3">door3</button> 
+            <button id="door4">door4</button><?php 
+            break;
         case 'room2' : ?>
             <p>You enter room2, you hear a distant growling from somewhere. there are 2 doors.</p>
                 <p>The doors you can choose from are<?php 
                 getAvalibaleDoors($roomDoors, $currentRoom);  
                 ?></p>                    
-                <label id="question" for="door">choose a door</label>            
+                <label id="question">choose a door</label>            
                 <button id="door5">door5</button>             
                 <button id="door4">door4</button> 
                 <?php
@@ -193,7 +140,7 @@ function getQuestion($currentRoom, $selectedButton, $rooms,$roomDoors,) {
              <p>The doors you can choose from are<?php
              getAvalibaleDoors($roomDoors, $currentRoom);
                 ?></p>
-                <label id="question" for="door">choose a door</label>
+                <label id="question">choose a door</label>
                 <button id="door2">door2</button>  
                 <button id="door6">door6</button>            
                 <?php
@@ -203,7 +150,7 @@ function getQuestion($currentRoom, $selectedButton, $rooms,$roomDoors,) {
              <p>The doors you can choose from are<?php
              getAvalibaleDoors($roomDoors, $currentRoom);
                 ?></p>
-                <label id="question" for="door">choose a door</label>
+                <label id="question">choose a door</label>
                 <button id="door5">door5</button>  
                 <button id="door8">door8</button>
                 <button id="door7">door7</button>  
@@ -272,9 +219,9 @@ function getQuestion($currentRoom, $selectedButton, $rooms,$roomDoors,) {
 }
 if (isset($_POST['selectedButton'])) {
     $selectedButton = $_POST['selectedButton'];   
-    $nextQuestion = getQuestion($currentRoom, $selectedButton, $rooms, $roomDoors, $geraltSword, $goldenApple, $meat, $lock, $dogIsFed, $dice, $key, $chest, $boots, $wind);
-    echo $nextQuestion;
+    $nextQuestion = getQuestion($currentRoom, $selectedButton, $rooms, $roomDoors);    
+    return $nextQuestion;
 } else {    
-    $initialQuestion = getQuestion($currentRoom, null, $rooms, $roomDoors, $geraltSword, $goldenApple, $meat, $lock, $dogIsFed, $dice, $key, $chest, $boots, $wind);
-    echo $initialQuestion;
+    $initialQuestion = getQuestion($currentRoom, null, $rooms, $selectedButton, $roomDoors);    
+   return $initialQuestion;
 }
