@@ -15,10 +15,9 @@ session_start();
         const answerButtons = document.querySelectorAll('button[id^="door"]');
 
         
-        function handleAnswer(selectedButton) {
+    function handleAnswer(selectedButton) {
     const formData = new FormData();
-    formData.append('selectedButton', selectedButton);            
-    
+    formData.append('selectedButton', selectedButton);    
     fetch('logic.php', {
         method: 'POST',
         body: formData

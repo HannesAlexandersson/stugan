@@ -1,6 +1,7 @@
 <?php
 session_start();
 __DIR__. require 'resource.php';
+
 //gets the current room based of what room the user came from and what door button the user pressed to change room
 function getCurrentRoom (&$currentRoom, $selectedButton, $rooms){
     if ($currentRoom == null){
@@ -105,74 +106,74 @@ function getAvalibaleDoors ($roomDoors,$currentRoom){
 
 
 //gets the next question with an switch case based on players current room, also the main driver for when the room changes (wich are each time the getCurrentRoom functions get called)
-function getQuestion($currentRoom, $selectedButton, $rooms,$roomDoors,) {
+function getQuestion($currentRoom,$roomDoors,$selectedButton, $rooms) {
     ?><div id="question-container">
         <?php
-    switch(getCurrentRoom ($currentRoom, $selectedButton, $rooms)){ 
-        case 'outside': 
-             ?>
-            <p>You are currently <?=$currentRoom ?></p>                            
-            <label id="question" for="door1">choose a door (<?php getAvalibaleDoors($roomDoors, $currentRoom); ?>)</label>            
-            <button id="door1">door1</button> <?php
-            break;       
-        case 'room1' : 
-             ?>
-            <p>you enter <?=$currentRoom?>, its dark and damp. You can see 4 doors. </p>
-            <p>The doors you can choose from are <?php getAvalibaleDoors($roomDoors, $currentRoom); ?></p>                     
-            <label id="question">choose a door</label>            
-            <button id="door1">door1</button> 
-            <button id="door2">door2</button> 
-            <button id="door3">door3</button> 
-            <button id="door4">door4</button><?php 
-            break;
+    switch($currentRoom){ 
+        case 'outside': ?>
+                <p>You are currently <?=$currentRoom ?></p>                            
+                <label id="question" for="door1">choose a door (<?php getAvalibaleDoors($roomDoors, $currentRoom); ?>)</label>            
+                <button id="door1">door1</button> <?php
+                getCurrentRoom ($currentRoom, $selectedButton, $rooms);
+                break;       
+        case 'room1' : ?>
+                <p>you enter <?=$currentRoom?>, its dark and damp. You can see 4 doors. </p>
+                <p>The doors you can choose from are <?php getAvalibaleDoors($roomDoors, $currentRoom); ?></p>                     
+                <label id="question">choose a door</label>            
+                <button id="door1">door1</button> 
+                <button id="door2">door2</button> 
+                <button id="door3">door3</button> 
+                <button id="door4">door4</button><?php 
+                getCurrentRoom ($currentRoom, $selectedButton, $rooms);
+                break;
         case 'room2' : ?>
-            <p>You enter room2, you hear a distant growling from somewhere. there are 2 doors.</p>
+                <p>You enter room2, you hear a distant growling from somewhere. there are 2 doors.</p>
                 <p>The doors you can choose from are<?php 
                 getAvalibaleDoors($roomDoors, $currentRoom);  
                 ?></p>                    
                 <label id="question">choose a door</label>            
                 <button id="door5">door5</button>             
-                <button id="door4">door4</button> 
-                <?php
+                <button id="door4">door4</button><?php
+                getCurrentRoom ($currentRoom, $selectedButton, $rooms);
                 break;
         case 'room3' : ?>
-            <p>You enter room3, The smell of rotting flesh is overhelming There are 2 doors.</p>
-             <p>The doors you can choose from are<?php
-             getAvalibaleDoors($roomDoors, $currentRoom);
+                <p>You enter room3, The smell of rotting flesh is overhelming There are 2 doors.</p>
+                <p>The doors you can choose from are<?php
+                getAvalibaleDoors($roomDoors, $currentRoom);
                 ?></p>
                 <label id="question">choose a door</label>
                 <button id="door2">door2</button>  
-                <button id="door6">door6</button>            
-                <?php
+                <button id="door6">door6</button><?php
+                getCurrentRoom ($currentRoom, $selectedButton, $rooms);
                 break;
         case 'room4' : ?>
-            <p>You enter room4, There is a door with an old huge lock, you can see light from under the door.</p>
-             <p>The doors you can choose from are<?php
-             getAvalibaleDoors($roomDoors, $currentRoom);
+                <p>You enter room4, There is a door with an old huge lock, you can see light from under the door.</p>
+                <p>The doors you can choose from are<?php
+                getAvalibaleDoors($roomDoors, $currentRoom);
                 ?></p>
                 <label id="question">choose a door</label>
                 <button id="door5">door5</button>  
                 <button id="door8">door8</button>
                 <button id="door7">door7</button>  
-                <button id="door14">door14</button>      
-                <?php
+                <button id="door14">door14</button><?php
+                getCurrentRoom ($currentRoom, $selectedButton, $rooms);
                 break;
         case 'room5' : ?>
-            <p>You enter room5, There is an big, evil, giganticous helldog here!</p>
-             <p>The doors you can choose from are<?php
-             getAvalibaleDoors($roomDoors, $currentRoom);
+                <p>You enter room5, There is an big, evil, giganticous helldog here!</p>
+                <p>The doors you can choose from are<?php
+                getAvalibaleDoors($roomDoors, $currentRoom);
                 ?></p>
                 <label id="question" for="door">choose a door</label>
                 <button id="door3">door3</button>  
                 <button id="door8">door8</button>
                 <button id="door11">door11</button>  
-                <button id="door10">door10</button>
-                <?php
+                <button id="door10">door10</button><?php
+                getCurrentRoom ($currentRoom, $selectedButton, $rooms);
                 break;
         case 'room6' : ?>
-            <p>You enter room6, a flute is playing but you cant seem to make out the direction.</p>
-             <p>The doors you can choose from are<?php
-             getAvalibaleDoors($roomDoors, $currentRoom);
+                <p>You enter room6, a flute is playing but you cant seem to make out the direction.</p>
+                <p>The doors you can choose from are<?php
+                getAvalibaleDoors($roomDoors, $currentRoom);
                 ?></p>
                 <label id="question" for="door">choose a door</label>
                 <button id="door6">door6</button>  
@@ -181,47 +182,45 @@ function getQuestion($currentRoom, $selectedButton, $rooms,$roomDoors,) {
                 <?php
                 break;
         case 'room7' : ?>
-            <p>You enter room7, The scorpions are here for some reason.</p>
-             <p>The doors you can choose from are<?php getAvalibaleDoors($roomDoors, $currentRoom);?></p>
+                <p>You enter room7, The scorpions are here for some reason.</p>
+                <p>The doors you can choose from are<?php getAvalibaleDoors($roomDoors, $currentRoom);?></p>
                 <label id="question" for="door">choose a door</label>                    
                 <button id="door7">door7</button>  
-                <button id="door9">door9</button>
-                <?php
+                <button id="door9">door9</button><?php
+                getCurrentRoom ($currentRoom, $selectedButton, $rooms);
                 break;
         case 'room8' : ?>
-            <p>You enter room 8, You can hear the sound of birds flying, and wings flapping.</p>
-             <p>The doors you can choose from are<?php getAvalibaleDoors($roomDoors, $currentRoom);?></p>
+                <p>You enter room 8, You can hear the sound of birds flying, and wings flapping.</p>
+                <p>The doors you can choose from are<?php getAvalibaleDoors($roomDoors, $currentRoom);?></p>
                 <label id="question" for="door">choose a door</label>
                 <button id="door9">door9</button>  
                 <button id="door10">door10</button>
-                <button id="door13">door13</button>                     
-                <?php 
+                <button id="door13">door13</button><?php
+                getCurrentRoom ($currentRoom, $selectedButton, $rooms);
                 break;
         case 'room9' : ?>
-            <p>You enter room 9, You can hear nothing but the sound of silence.</p>
-             <p>The doors you can choose from are<?php getAvalibaleDoors($roomDoors, $currentRoom);?></p>
+                <p>You enter room 9, You can hear nothing but the sound of silence.</p>
+                <p>The doors you can choose from are<?php getAvalibaleDoors($roomDoors, $currentRoom);?></p>
                 <label id="question" for="door">choose a door</label>
                 <button id="door12">door12</button>  
-                <button id="door13">door13</button>                    
-                <?php 
+                <button id="door13">door13</button><?php
+                getCurrentRoom ($currentRoom, $selectedButton, $rooms);
                 break;
         case 'treasure_room' : ?>
-            <p>You enter the treasure room, There is an big chest in the midle of the room.</p>
-             <p>The doors you can choose from are<?php
-             getAvalibaleDoors($roomDoors, $currentRoom);
+                <p>You enter the treasure room, There is an big chest in the midle of the room.</p>
+                <p>The doors you can choose from are<?php
+                getAvalibaleDoors($roomDoors, $currentRoom);
                 ?></p>
                 <label id="question" for="door">choose a door</label>
-                <button id="door14">door14</button>                                 
-                <?php 
+                <button id="door14">door14</button><?php 
+                getCurrentRoom ($currentRoom, $selectedButton, $rooms);
                 break;
     };?>    
 </div><?php
 }
 if (isset($_POST['selectedButton'])) {
     $selectedButton = $_POST['selectedButton'];   
-    $nextQuestion = getQuestion($currentRoom, $selectedButton, $rooms, $roomDoors);    
-    return $nextQuestion;
+    getQuestion($currentRoom, $selectedButton, $rooms, $roomDoors); 
 } else {    
-    $initialQuestion = getQuestion($currentRoom, null, $rooms, $selectedButton, $roomDoors);    
-   return $initialQuestion;
+    getQuestion($currentRoom, null, $rooms, $selectedButton, $roomDoors); 
 }
